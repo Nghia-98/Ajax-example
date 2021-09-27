@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX 2 - AJAX JQUERY</title>
+  </head>
+  <body>
+    <h1>Ajax Practice - Show Table Data Using $ajax{}</h1>
+    <button class="btn">Load Data</button>
+
+    <br />
+    <br />
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+
+    <!-- jQuery CDN -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      var btnLoadData = document.querySelector('.btn');
+
+      btnLoadData.addEventListener('click', loadData);
+
+      function loadData() {
+        $.ajax({
+          url: 'https://5f61bb1807c1770016c524ec.mockapi.io/league/player',
+          type: 'GET',
+          data: {},
+          dataType: 'json',
+          contentType: 'Application/json; charset=UTF-8',
+          success: function (players) {
+            console.log(players);
+
+            var table = '';
+
+            players.forEach((player) => {
+              table += ` 
+                <tr>
+                  <td>${player.id}</td>
+                  <td>${player.name}</td>
+                  <td>${player.age}</td>
+                  <td>${player.score}</td>
+                </tr>`;
+            });
+
+            $('#tbody').html(table);
+          },
+          error: function (err) {
+            console.log(err);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

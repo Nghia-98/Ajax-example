@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ajax 1 - AJAX & Forms Submit</title>
+  </head>
+  <body>
+    <h1>Table Data</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+
+    <hr />
+    <h1>GET FORM</h1>
+    <form
+      method="GET"
+      action="https://5f61bb1807c1770016c524ec.mockapi.io/league/player"
+    >
+      <input type="submit" value="Submit" />
+    </form>
+
+    <hr />
+    <h1>AJAX GET FORM</h1>
+    <form
+      id="getForm"
+      action="https://5f61bb1807c1770016c524ec.mockapi.io/league/player"
+    >
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script>
+      document.getElementById('getForm').addEventListener('submit', getPlayer);
+
+      function getPlayer(e) {
+        e.preventDefault();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open(
+          'GET',
+          'https://5f61bb1807c1770016c524ec.mockapi.io/league/player',
+          true
+        );
+
+        xhr.onload = function () {
+          if (this.status == 200) {
+            //Handle success
+
+            var players = JSON.parse(this.responseText);
+
+            var table = '';
+
+            players.forEach((player) => {
+              table += ` 
+                <tr>
+                  <td>${player.id}</td>
+                  <td>${player.name}</td>
+                  <td>${player.age}</td>
+                  <td>${player.score}</td>
+                </tr>`;
+            });
+
+            document.getElementById('tbody').innerHTML = table;
+          } else {
+            // Handle Err
+            alert('Some thing wrong...');
+          }
+        };
+
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
